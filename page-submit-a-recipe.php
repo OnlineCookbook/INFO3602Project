@@ -54,6 +54,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['oc_submit_recipe'])) 
         'post_author' => get_current_user_id()
       ));
 
+      $recipe_categories = isset($_POST['recipe_categories']) ? array_map('sanitize_text_field', (array) $_POST['recipe_categories']) : array();
+      wp_set_post_terms($post_id, $recipe_categories, 'recipe_category');
+
       if (is_wp_error($post_id)) {
         $error_message = 'Could not create recipe. Please try again.';
       } else {
@@ -81,6 +84,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['oc_submit_recipe'])) 
     }
   }
 }
+
+$available_categories = get_terms(array('taxonomy' => 'recipe_category', 'hide_empty' => false));
+$selected_categories = isset($_POST['recipe_categories']) ? (array) $_POST['recipe_categories'] : array();
+$selected_categories = array_map('sanitize_text_field', $selected_categories);
 ?>
 
 <div class="page-banner">
@@ -127,9 +134,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['oc_submit_recipe'])) 
       <label>Difficulty<br>
         <select name="difficulty" style="width: 100%;">
           <option value="">Select</option>
-          <option value="Easy">Easy</option>
-          <option value="Medium">Medium</option>
-          <option value="Hard">Hard</option>
+          <option value="Easy" <?php selected($difficulty ?? '', 'Easy'); ?>>Easy</option>
+          <option value="Medium" <?php selected($difficulty ?? '', 'Medium'); ?>>Medium</option>
+          <option value="Hard" <?php selected($difficulty ?? '', 'Hard'); ?>>Hard</option>
+        </select>
+      </label>
+    </p>
+
+    <p>
+      <label>Recipe Category<br>
+        <select name="recipe_categories[]" multiple style="width: 100%; min-height: 120px;">
+          <?php if (!empty($available_categories) && !is_wp_error($available_categories)) : ?>
+            <?php foreach ($available_categories as $cat) : ?>
+              <option value="<?php echo esc_attr($cat->slug); ?>" <?php echo in_array($cat->slug, $selected_categories) ? 'selected' : ''; ?>><?php echo esc_html($cat->name); ?></option>
+            <?php endforeach; ?>
+          <?php else : ?>
+            <option value="">No categories available (add one in WP Admin -> Recipe Categories)</option>
+          <?php endif; ?>
         </select>
       </label>
     </p>
