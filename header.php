@@ -37,3 +37,11 @@
 
   </div>
 </header>
+
+<?php if (function_exists('yoast_breadcrumb')) { ?>
+  <div class="breadcrumbs">
+    <?php yoast_breadcrumb(); ?>
+  </div>
+<?php } ?>
+
+<main class="main-content">
