@@ -54,8 +54,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['oc_submit_recipe'])) 
         'post_author' => get_current_user_id()
       ));
 
-      $recipe_categories = isset($_POST['recipe_categories']) ? array_map('sanitize_text_field', (array) $_POST['recipe_categories']) : array();
-      wp_set_post_terms($post_id, $recipe_categories, 'recipe_category');
+      $recipe_categories = isset($_POST['recipe_categories']) ? array_map('intval', (array) $_POST['recipe_categories']) : array();
+      if ($post_id && !is_wp_error($post_id) && !empty($recipe_categories)) {
+        wp_set_post_terms($post_id, $recipe_categories, 'recipe_category');
+      }
 
       if (is_wp_error($post_id)) {
         $error_message = 'Could not create recipe. Please try again.';
@@ -87,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['oc_submit_recipe'])) 
 
 $available_categories = get_terms(array('taxonomy' => 'recipe_category', 'hide_empty' => false));
 $selected_categories = isset($_POST['recipe_categories']) ? (array) $_POST['recipe_categories'] : array();
-$selected_categories = array_map('sanitize_text_field', $selected_categories);
+$selected_categories = array_map('intval', $selected_categories);
 ?>
 
 <div class="page-banner">
@@ -146,10 +148,10 @@ $selected_categories = array_map('sanitize_text_field', $selected_categories);
         <select name="recipe_categories[]" multiple style="width: 100%; min-height: 120px;">
           <?php if (!empty($available_categories) && !is_wp_error($available_categories)) : ?>
             <?php foreach ($available_categories as $cat) : ?>
-              <option value="<?php echo esc_attr($cat->slug); ?>" <?php echo in_array($cat->slug, $selected_categories) ? 'selected' : ''; ?>><?php echo esc_html($cat->name); ?></option>
+              <option value="<?php echo esc_attr($cat->term_id); ?>" <?php echo in_array($cat->term_id, $selected_categories) ? 'selected' : ''; ?>><?php echo esc_html($cat->name); ?></option>
             <?php endforeach; ?>
           <?php else : ?>
-            <option value="">No categories available (add one in WP Admin -> Recipe Categories)</option>
+            <option value="">No categories available</option>
           <?php endif; ?>
         </select>
       </label>

@@ -24,7 +24,20 @@
     <nav class="site-header__nav">
       <ul class="site-header__menu">
         <li><a href="<?php echo esc_url(site_url('/')); ?>">Home</a></li>
-        <li><a href="<?php echo esc_url(site_url('/recipes')); ?>">Recipes</a></li>
+        <li class="dropdown">
+          <a href="<?php echo esc_url(site_url('/recipes')); ?>" class="dropdown-toggle">Recipes</a>
+          <ul class="dropdown-menu">
+            <?php
+            $categories = get_terms(array(
+              'taxonomy' => 'recipe_category',
+              'hide_empty' => false,
+            ));
+            foreach ($categories as $category) {
+              echo '<li><a href="' . esc_url(get_term_link($category)) . '">' . esc_html($category->name) . '</a></li>';
+            }
+            ?>
+          </ul>
+        </li>
         <li><a href="<?php echo esc_url(site_url('/submit-a-recipe')); ?>">Submit</a></li>
 
         <?php if (is_user_logged_in()) { ?>
