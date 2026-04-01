@@ -68,7 +68,6 @@ $recipes = new WP_Query($args);
         <input type="text" name="category" value="<?php echo esc_attr($category); ?>" placeholder="e.g. desserts">
       </label>
       <br>
-      <small>Tip: once you create categories, use the slug (like “breakfast”, “desserts”).</small>
     </p>
 
     <p>
@@ -98,6 +97,21 @@ $recipes = new WP_Query($args);
         <h2 class="headline headline--medium headline--post-title">
           <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
         </h2>
+
+        <h3>
+          <?php
+          $categories = get_the_terms(get_the_ID(), 'recipe_category');
+          if (!empty($categories) && !is_wp_error($categories)) {
+            $cat_links = array();
+            foreach ($categories as $cat) {
+              $cat_links[] = '<a href="' . esc_url(get_term_link($cat)) . '">' . esc_html($cat->name) . '</a>';
+            }
+            echo implode(', ', $cat_links);
+          } else {
+            echo 'Uncategorized';
+          }
+          ?>
+        </h3>
 
         <div class="metabox">
           <p>
