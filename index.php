@@ -20,6 +20,9 @@
                 <p>
                     Posted on <?php the_time('F j, Y'); ?> 
                     by <?php the_author(); ?>
+                    <br>
+                    <?php comments_number('No Comments', '1 Comment', '% Comments'); ?>
+                    <?php comments_template(); ?>
                 </p>
 
                 <div>

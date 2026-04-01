@@ -101,8 +101,8 @@ $recipes = new WP_Query($args);
 
         <div class="metabox">
           <p>
-            Prep: <strong><?php echo esc_html(get_field('prep_time') ?: 'N/A'); ?></strong> |
-            Difficulty: <strong><?php echo esc_html(get_field('difficulty') ?: 'N/A'); ?></strong>
+            Prep: <strong><?php echo esc_html(get_post_meta(get_the_ID(), 'prep_time', true) ?: 'N/A'); ?></strong> |
+            Difficulty: <strong><?php echo esc_html(get_post_meta(get_the_ID(), 'difficulty', true) ?: 'N/A'); ?></strong>
           </p>
         </div>
 
