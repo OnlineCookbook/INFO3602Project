@@ -133,8 +133,8 @@ get_header();
 
           <div class="event-summary">
             <a class="event-summary__date t-center" href="<?php the_permalink(); ?>">
-              <span class="event-summary__month">Views</span>
-              <span class="event-summary__day"><?php echo esc_html(get_post_meta(get_the_ID(), 'views', true) ?: 0); ?></span>
+              <span class="event-summary__month">Rating</span>
+              <span class="event-summary__day"><?php echo esc_html(round(cookbook_get_recipe_average_rating(get_the_ID()), 1) ?: '0.0'); ?></span>
             </a>
 
             <div class="event-summary__content">
