@@ -429,3 +429,14 @@ textarea:focus {
 .breadcrumbs .breadcrumb_last {
   color: #666;
 }
+
+.recipe-flex {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.recipe-image {
+  flex-shrink: 0;
+  margin-left: auto;
+}
