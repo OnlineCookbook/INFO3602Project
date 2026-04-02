@@ -27,18 +27,16 @@ get_header();
       <h2 class="headline headline--small-plus t-center">Featured Recipes</h2>
 
       <?php
-      // Featured recipes: requires CPT 'recipe' and taxonomy 'recipe_category' (optional)
-      // Option 1: use a tag "featured" on recipes
       $featuredRecipes = new WP_Query(array(
         'posts_per_page' => 2,
         'post_type'      => 'recipe',
         'tax_query'      => array(
           array(
-            'taxonomy' => 'post_tag',
+            'taxonomy' => 'recipe_category',
             'field'    => 'slug',
-            'terms'    => array('featured')
-          )
-        )
+            'terms'    => array('featured'),
+          ),
+        ),
       ));
 
       if ($featuredRecipes->have_posts()) {
@@ -48,8 +46,8 @@ get_header();
           <div class="event-summary">
             <a class="event-summary__date event-summary__date--beige t-center"
                href="<?php the_permalink(); ?>">
-              <span class="event-summary__month"><?php echo esc_html(get_field('prep_time') ?: 'Prep'); ?></span>
-              <span class="event-summary__day"><?php echo esc_html(get_field('difficulty') ?: 'Easy'); ?></span>
+              <span class="event-summary__month"><?php echo esc_html(get_post_meta(get_the_ID(), 'prep_time', true) ?: 'Prep'); ?></span>
+              <span class="event-summary__day"><?php echo esc_html(get_post_meta(get_the_ID(), 'difficulty', true) ?: 'Easy'); ?></span>
             </a>
 
             <div class="event-summary__content">
