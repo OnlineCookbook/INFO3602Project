@@ -80,14 +80,51 @@ get_header();
       <h2 class="headline headline--small-plus t-center">Trending Dishes</h2>
 
       <?php
-      // Trending: uses a custom field 'views' (number). If you don't have it yet, this will still work,
-      // but results may look random until you add views.
-      $trendingRecipes = new WP_Query(array(
-        'posts_per_page' => 2,
+      // Trending: sort recipes by average star rating (comment meta key 'rating' or post meta 'average_rating').
+      function cookbook_get_recipe_average_rating($post_id) {
+        $avg = get_post_meta($post_id, 'average_rating', true);
+        if ($avg !== '') {
+          return floatval($avg);
+        }
+
+        $comments = get_approved_comments($post_id);
+        $ratings = array();
+
+        foreach ($comments as $comment) {
+          $comment_rating = get_comment_meta($comment->comment_ID, 'rating', true);
+          if ($comment_rating !== '' && is_numeric($comment_rating)) {
+            $ratings[] = floatval($comment_rating);
+          }
+        }
+
+        if (!empty($ratings)) {
+          return array_sum($ratings) / count($ratings);
+        }
+
+        // fallback to views if no rating is available
+        $views = get_post_meta($post_id, 'views', true);
+        return is_numeric($views) ? floatval($views) / 10 : 0; // normalize for ranking
+      }
+
+      $all_recipes = get_posts(array(
         'post_type'      => 'recipe',
-        'meta_key'       => 'views',
-        'orderby'        => 'meta_value_num',
-        'order'          => 'DESC'
+        'posts_per_page' => 20,
+        'post_status'    => 'publish',
+      ));
+
+      $trend_scores = array();
+      foreach ($all_recipes as $recipe_post) {
+        $trend_scores[$recipe_post->ID] = cookbook_get_recipe_average_rating($recipe_post->ID);
+      }
+
+      arsort($trend_scores);
+      $top_recipe_ids = array_slice(array_keys($trend_scores), 0, 2);
+
+      $trendingRecipes = new WP_Query(array(
+        'post_type'      => 'recipe',
+        'post__in'       => $top_recipe_ids,
+        'orderby'        => 'post__in',
+        'posts_per_page' => 2,
       ));
 
       if ($trendingRecipes->have_posts()) {
@@ -96,8 +133,8 @@ get_header();
 
           <div class="event-summary">
             <a class="event-summary__date t-center" href="<?php the_permalink(); ?>">
-              <span class="event-summary__month">Views</span>
-              <span class="event-summary__day"><?php echo esc_html(get_post_meta(get_the_ID(), 'views', true) ?: 0); ?></span>
+              <span class="event-summary__month">Rating</span>
+              <span class="event-summary__day"><?php echo esc_html(round(cookbook_get_recipe_average_rating(get_the_ID()), 1) ?: '0.0'); ?></span>
             </a>
 
             <div class="event-summary__content">
