@@ -94,35 +94,43 @@ $recipes = new WP_Query($args);
       $recipes->the_post(); ?>
 
       <div class="post-item">
-        <h2 class="headline headline--medium headline--post-title">
-          <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-        </h2>
+        <div class="recipe-flex">
+          <div class="recipe-content">
+            <h2 class="headline headline--medium headline--post-title">
+              <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+            </h2>
 
-        <h3>
-          <?php
-          $categories = get_the_terms(get_the_ID(), 'recipe_category');
-          if (!empty($categories) && !is_wp_error($categories)) {
-            $cat_links = array();
-            foreach ($categories as $cat) {
-              $cat_links[] = '<a href="' . esc_url(get_term_link($cat)) . '">' . esc_html($cat->name) . '</a>';
-            }
-            echo implode(', ', $cat_links);
-          } else {
-            echo 'Uncategorized';
-          }
-          ?>
-        </h3>
+            <h3>
+              <?php
+              $categories = get_the_terms(get_the_ID(), 'recipe_category');
+              if (!empty($categories) && !is_wp_error($categories)) {
+                $cat_links = array();
+                foreach ($categories as $cat) {
+                  $cat_links[] = '<a href="' . esc_url(get_term_link($cat)) . '">' . esc_html($cat->name) . '</a>';
+                }
+                echo implode(', ', $cat_links);
+              } else {
+                echo 'Uncategorized';
+              }
+              ?>
+            </h3>
 
-        <div class="metabox">
-          <p>
-            Prep: <strong><?php echo esc_html(get_post_meta(get_the_ID(), 'prep_time', true) ?: 'N/A'); ?></strong> |
-            Difficulty: <strong><?php echo esc_html(get_post_meta(get_the_ID(), 'difficulty', true) ?: 'N/A'); ?></strong>
-          </p>
-        </div>
+            <div class="metabox">
+              <p>
+                Prep: <strong><?php echo esc_html(get_post_meta(get_the_ID(), 'prep_time', true) ?: 'N/A'); ?></strong> |
+                Difficulty: <strong><?php echo esc_html(get_post_meta(get_the_ID(), 'difficulty', true) ?: 'N/A'); ?></strong>
+              </p>
+            </div>
 
-        <div class="generic-content">
-          <?php the_excerpt(); ?>
-          <p><a class="btn btn--blue" href="<?php the_permalink(); ?>">View Recipe &raquo;</a></p>
+            <div class="generic-content">
+              <?php the_excerpt(); ?>
+              <p><a class="btn btn--blue" href="<?php the_permalink(); ?>">View Recipe &raquo;</a></p>
+            </div>
+          </div>
+
+          <div class="recipe-image">
+            <?php the_post_thumbnail('medium'); ?>
+          </div>
         </div>
       </div>
 
