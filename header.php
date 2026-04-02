@@ -43,6 +43,7 @@
                 }
               }
               ?>
+              
             </ul>
           </li>
           <li><a href="<?php echo esc_url(site_url('/submit-a-recipe')); ?>">Submit</a></li>
