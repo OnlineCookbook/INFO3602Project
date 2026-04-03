@@ -1,8 +1,4 @@
 <?php
-/**
- * archive-tip.php
- * Archive page — Tips & Tricks grid view.
- */
 
 
 get_header();
@@ -47,8 +43,7 @@ $tips = new WP_Query($args);
     <form method="get" class="tips-filter-form">
         <div class="tips-filter-inner">
             <input type="text" name="s" value="<?php echo esc_attr($search); ?>" placeholder="Search tips…">
-            <input type="text" name="tip_category" value="<?php echo esc_attr($tip_category); ?>"
-                placeholder="Category slug…">
+            <input type="text" name="tip_category" value="<?php echo esc_attr($tip_category); ?>" placeholder="Category slug…">
             <button class="btn btn--blue" type="submit">Search</button>
             <a class="btn btn--yellow" href="<?php echo get_post_type_archive_link('tip'); ?>">Reset</a>
         </div>
@@ -77,11 +72,10 @@ $tips = new WP_Query($args);
                             preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/', $youtube_url, $matches);
                             $video_id = $matches[1] ?? '';
                             if ($video_id): ?>
-                                <img src="https://img.youtube.com/vi/<?php echo esc_attr($video_id); ?>/maxresdefault.jpg"
-                                    alt="<?php the_title_attribute(); ?>">
+                                <img src="https://img.youtube.com/vi/<?php echo esc_attr($video_id); ?>/maxresdefault.jpg" alt="<?php the_title_attribute(); ?>">
                             <?php endif; ?>
                         <?php else: ?>
-                            <div class="tip-card__no-image">💡</div>
+                            <div class="tip-card__no-image">No Image</div>
                         <?php endif; ?>
 
 

@@ -1,8 +1,5 @@
 <?php
-/**
- * single-pairing.php
- * Single pairing view — two recipe cards side by side with description.
- */
+
 
 get_header();
 the_post();
@@ -46,7 +43,7 @@ $recipe_b = $recipe_b_id ? get_post($recipe_b_id) : null;
                 <?php if (has_post_thumbnail($recipe_a->ID)) : ?>
                     <?php echo get_the_post_thumbnail($recipe_a->ID, 'medium_large'); ?>
                 <?php else : ?>
-                    <div class="pairing-recipe-card__no-image">🍽</div>
+                    <div class="pairing-recipe-card__no-image">No Image</div>
                 <?php endif; ?>
             </div>
             <div class="pairing-recipe-card__body">
@@ -96,7 +93,7 @@ $recipe_b = $recipe_b_id ? get_post($recipe_b_id) : null;
                 <?php if (has_post_thumbnail($recipe_b->ID)) : ?>
                     <?php echo get_the_post_thumbnail($recipe_b->ID, 'medium_large'); ?>
                 <?php else : ?>
-                    <div class="pairing-recipe-card__no-image">🍽</div>
+                    <div class="pairing-recipe-card__no-image">No Image</div>
                 <?php endif; ?>
             </div>
             <div class="pairing-recipe-card__body">

@@ -6,6 +6,9 @@ get_header();
 $paged  = get_query_var('paged') ? get_query_var('paged') : 1;
 $search = isset($_GET['s']) ? sanitize_text_field($_GET['s']) : '';
 
+
+
+
 $args = array(
     'post_type'      => 'pairing',
     'posts_per_page' => 12,
@@ -34,15 +37,10 @@ $pairings = new WP_Query($args);
 
     <form method="get" class="pairings-filter-form">
         <div class="pairings-filter-inner">
-            <input type="text" name="s"
-                   value="<?php echo esc_attr($search); ?>"
-                   placeholder="Search pairings…">
+            <input type="text" name="s" value="<?php echo esc_attr($search); ?>" placeholder="Search pairings…">
             <button class="btn btn--blue" type="submit">Search</button>
-            <a class="btn btn--yellow"
-               href="<?php echo get_post_type_archive_link('pairing'); ?>">Reset</a>
-            <a class="btn btn--blue"
-               href="<?php echo esc_url(site_url('/submit-a-pairing')); ?>"
-               style="margin-left:auto;">+ Submit a Pairing</a>
+            <a class="btn btn--yellow" href="<?php echo get_post_type_archive_link('pairing'); ?>">Reset</a>
+            <a class="btn btn--blue" href="<?php echo esc_url(site_url('/submit-a-pairing')); ?>" style="margin-left:auto;">+ Submit a Pairing</a>
         </div>
     </form>
 

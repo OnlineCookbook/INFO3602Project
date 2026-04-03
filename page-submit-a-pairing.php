@@ -1,10 +1,4 @@
 <?php
-/**
- * page-submit-a-pairing.php
- * Front-end form to submit a recipe pairing.
- * Create a WordPress Page titled "Submit a Pairing" and set this as its template,
- * or name the file page-submit-a-pairing.php and create a page with slug submit-a-pairing.
- */
 
 get_header();
 
