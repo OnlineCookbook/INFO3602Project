@@ -46,17 +46,18 @@
               
             </ul>
           </li>
-          <li> <a href="<?php echo esc_url(site_url('/tip')); ?>" >Tips &amp; Tricks </a></li>
-          <li><a href="<?php echo esc_url(site_url('/submit-a-tip')); ?>">Submit a Tip</a></li>
           <li><a href="<?php echo esc_url(site_url('/submit-a-recipe')); ?>">Submit a Recipe</a></li>
+          <li> <a href="<?php echo esc_url(site_url('/tip')); ?>" >Tips &amp; Tricks </a></li>
+          <li><a href="<?php echo esc_url(site_url('/submit-a-tip')); ?>">Submit a Tip</a></li>        
           <li><a href="<?php echo esc_url(site_url('/pairings')); ?>">Pairings</a></li>
-          <li><a href="<?php echo esc_url(site_url('/submit-a-pairing')); ?>">Submit a Pairing</a></li>
 
           <?php if (is_user_logged_in()) { ?>
-            <li><a href="<?php echo esc_url(wp_logout_url(site_url('/'))); ?>">Logout</a></li>
-          <?php } else { ?>
-            <li><a href="<?php echo esc_url(wp_login_url()); ?>">Login</a></li>
-          <?php } ?>
+          <li><a href="<?php echo esc_url(wp_logout_url(site_url('/'))); ?>">Logout</a></li>
+      <?php } else { ?>
+          <li><a href="<?php echo esc_url(wp_login_url()); ?>">Login</a></li>
+          <li><a href="<?php echo esc_url(wp_registration_url()); ?>" class="btn btn--yellow" style="padding: 8px 16px;">Register</a></li>
+      <?php } ?>
+
         </ul>
       </nav>
 

@@ -1,10 +1,4 @@
 <?php
-/**
- * single-tip.php
- * Single Tips & Tricks article — with optional YouTube embed.
- */
-
-
 
 get_header();
 the_post();

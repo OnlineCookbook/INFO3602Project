@@ -5,7 +5,8 @@ get_header();
 if (!is_user_logged_in()) { ?>
 
   <div class="page-banner">
-    <div class="page-banner__bg-image" style="background-image: url(<?php echo get_theme_file_uri('images/submit-banner.jpg'); ?>);"></div>
+    <div class="page-banner__bg-image"
+      style="background-image: url(<?php echo get_theme_file_uri('images/submit-banner.jpg'); ?>);"></div>
     <div class="page-banner__content container container--narrow">
       <h1 class="page-banner__title">Submit a Recipe</h1>
       <div class="page-banner__intro">
@@ -19,14 +20,15 @@ if (!is_user_logged_in()) { ?>
     <p><a class="btn btn--yellow" href="<?php echo wp_registration_url(); ?>">Register</a></p>
   </div>
 
-<?php
+  //
+  <?php
   get_footer();
   exit;
 }
 
 // Handle form submission
 $success_message = '';
-$error_message   = '';
+$error_message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['oc_submit_recipe'])) {
 
@@ -35,10 +37,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['oc_submit_recipe'])) 
     $error_message = 'Security check failed. Please try again.';
   } else {
 
-    $title        = sanitize_text_field($_POST['recipe_title'] ?? '');
-    $prep_time    = sanitize_text_field($_POST['prep_time'] ?? '');
-    $difficulty   = sanitize_text_field($_POST['difficulty'] ?? '');
-    $ingredients  = wp_kses_post($_POST['ingredients'] ?? '');
+    $title = sanitize_text_field($_POST['recipe_title'] ?? '');
+    $prep_time = sanitize_text_field($_POST['prep_time'] ?? '');
+    $difficulty = sanitize_text_field($_POST['difficulty'] ?? '');
+    $ingredients = wp_kses_post($_POST['ingredients'] ?? '');
     $instructions = wp_kses_post($_POST['instructions'] ?? '');
 
     if (empty($title) || empty($ingredients) || empty($instructions)) {
@@ -47,10 +49,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['oc_submit_recipe'])) 
 
       // Create recipe post (set to draft so an editor/admin can approve)
       $post_id = wp_insert_post(array(
-        'post_type'   => 'recipe',
-        'post_title'  => $title,
+        'post_type' => 'recipe',
+        'post_title' => $title,
         'post_status' => 'draft',
-        'post_content'=> $instructions,
+        'post_content' => $instructions,
         'post_author' => get_current_user_id()
       ));
 
@@ -93,7 +95,8 @@ $selected_categories = array_map('intval', $selected_categories);
 ?>
 
 <div class="page-banner">
-  <div class="page-banner__bg-image" style="background-image: url(<?php echo get_theme_file_uri('images/submit-banner.jpg'); ?>);"></div>
+  <div class="page-banner__bg-image"
+    style="background-image: url(<?php echo get_theme_file_uri('images/submit-banner.jpg'); ?>);"></div>
   <div class="page-banner__content container container--narrow">
     <h1 class="page-banner__title">Submit a Recipe</h1>
     <div class="page-banner__intro">
@@ -104,13 +107,13 @@ $selected_categories = array_map('intval', $selected_categories);
 
 <div class="container container--narrow page-section">
 
-  <?php if ($success_message) : ?>
+  <?php if ($success_message): ?>
     <div class="metabox" style="padding: 15px;">
       <p><strong><?php echo esc_html($success_message); ?></strong></p>
     </div>
   <?php endif; ?>
 
-  <?php if ($error_message) : ?>
+  <?php if ($error_message): ?>
     <div class="metabox" style="padding: 15px;">
       <p><strong><?php echo esc_html($error_message); ?></strong></p>
     </div>
@@ -146,11 +149,11 @@ $selected_categories = array_map('intval', $selected_categories);
     <p>
       <label>Recipe Category<br>
         <select name="recipe_categories[]" multiple style="width: 100%; min-height: 120px;">
-          <?php if (!empty($available_categories) && !is_wp_error($available_categories)) : ?>
-            <?php foreach ($available_categories as $cat) : ?>
+          <?php if (!empty($available_categories) && !is_wp_error($available_categories)): ?>
+            <?php foreach ($available_categories as $cat): ?>
               <option value="<?php echo esc_attr($cat->term_id); ?>" <?php echo in_array($cat->term_id, $selected_categories) ? 'selected' : ''; ?>><?php echo esc_html($cat->name); ?></option>
             <?php endforeach; ?>
-          <?php else : ?>
+          <?php else: ?>
             <option value="">No categories available</option>
           <?php endif; ?>
         </select>

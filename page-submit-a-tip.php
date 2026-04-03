@@ -1,8 +1,4 @@
 <?php
-/**
- * page-submit-a-tip.php
- * Front-end submission form for Tips & Tricks posts.
- */
 
 get_header();
 
@@ -94,9 +90,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['oc_submit_tip'])) {
   }
 }
 
-// -------------------------------------------------------
-// Prepare form data
-// -------------------------------------------------------
 $available_categories = get_terms(array('taxonomy' => 'tip_category', 'hide_empty' => false));
 $selected_categories  = isset($_POST['tip_categories']) ? array_map('intval', (array) $_POST['tip_categories']) : array();
 
@@ -136,31 +129,25 @@ $youtube_url = isset($_POST['youtube_url']) ? esc_url($_POST['youtube_url'])    
     <?php wp_nonce_field('oc_submit_tip', 'oc_tip_nonce'); ?>
     <input type="hidden" name="oc_submit_tip" value="1">
 
-    <!-- Title -->
     <p>
       <label>Tip Title<br>
-        <input type="text" name="tip_title" required style="width:100%;"
-               value="<?php echo esc_attr($tip_title); ?>">
+        <input type="text" name="tip_title" required style="width:100%;" value="<?php echo esc_attr($tip_title); ?>">
       </label>
     </p>
 
-    <!-- Number of items -->
     <p>
       <label>Number of Tips (optional)<br>
-        <input type="number" name="tip_number" min="1" max="99" style="width:100%;"
-               value="<?php echo esc_attr($tip_number); ?>">
+        <input type="number" name="tip_number" min="1" max="99" style="width:100%;" value="<?php echo esc_attr($tip_number); ?>">
       </label>
     </p>
 
-    <!-- Topic tag -->
+
     <p>
       <label>Topic Tag (optional)<br>
-        <input type="text" name="tip_tag" style="width:100%;"
-               value="<?php echo esc_attr($tip_tag); ?>">
+        <input type="text" name="tip_tag" style="width:100%;" value="<?php echo esc_attr($tip_tag); ?>">
       </label>
     </p>
 
-    <!-- Category -->
     <p>
       <label>Tip Category<br>
         <select name="tip_categories[]" multiple style="width:100%; min-height:120px;">
@@ -179,15 +166,14 @@ $youtube_url = isset($_POST['youtube_url']) ? esc_url($_POST['youtube_url'])    
     
     </p>
 
-    <!-- Tip content -->
+
     <p>
       <label>Your Tip(s)<br>
-        <textarea name="tip_content" rows="12" required style="width:100%;"
-                 ><?php echo esc_textarea($tip_content); ?></textarea>
+        <textarea name="tip_content" rows="12" required style="width:100%;"><?php echo esc_textarea($tip_content); ?></textarea>
       </label>
     </p>
 
-    <!-- Image -->
+
     <p>
       <label>Tip Image (optional)<br>
         <input type="file" name="tip_image" accept="image/*">
@@ -195,7 +181,7 @@ $youtube_url = isset($_POST['youtube_url']) ? esc_url($_POST['youtube_url'])    
       <small>Upload a photo to go with your tip.</small>
     </p>
 
-    <!-- YouTube URL -->
+
     <p>
       <label>YouTube Video URL (optional)<br>
         <input type="url" name="youtube_url" style="width:100%;"
